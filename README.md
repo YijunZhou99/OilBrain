@@ -11,7 +11,8 @@ Built as a portfolio project to demonstrate end-to-end RAG system engineering: P
 
 ## Demo Video
 
-<video src="docs/demo_video.mp4" controls width="100%"></video>
+https://github.com/user-attachments/assets/282d9a06-7db2-463a-b8c4-7bad4b422595
+
 
 ---
 
