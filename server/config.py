@@ -21,6 +21,10 @@ class Settings(BaseSettings):
 
     # Web search fallback — trigger when top Qdrant score is below this value
     web_search_score_threshold: float = 0.45
+    COLLECTION_NAME = "oilbrain_docs"
+    EMBEDDING_MODEL = "sentence-transformers/all-minilm-l6-v2"  
+    VECTOR_SIZE = 384  # all-minilm-l6-v2 output dimension
+
 
 
 settings = Settings()

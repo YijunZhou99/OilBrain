@@ -4,7 +4,6 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import Document
 
 from config import settings
-from rag.qdrant import COLLECTION_NAME, EMBEDDING_MODEL
 from rag.web_search import rewrite_query, search_web
 from schemas import Citation
 
@@ -17,8 +16,8 @@ def retrieve_chunks(
     top_k: int = 5,
 ) -> list[dict]:
     results = qdrant_client.query_points(
-        collection_name=COLLECTION_NAME,
-        query=Document(text=query, model=EMBEDDING_MODEL),
+        collection_name=settings.COLLECTION_NAME,
+        query=Document(text=query, model=settings.EMBEDDING_MODEL),
         limit=top_k,
         with_payload=True,
     ).points
@@ -31,8 +30,8 @@ def _retrieve_chunks_scored(
     top_k: int = 5,
 ) -> tuple[list[dict], float]:
     results = qdrant_client.query_points(
-        collection_name=COLLECTION_NAME,
-        query=Document(text=query, model=EMBEDDING_MODEL),
+        collection_name=settings.COLLECTION_NAME,
+        query=Document(text=query, model=settings.EMBEDDING_MODEL),
         limit=top_k,
         with_payload=True,
     ).points

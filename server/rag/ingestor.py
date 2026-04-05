@@ -8,7 +8,9 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import Document, PointStruct
 
 from rag.document_store import update_document
-from rag.qdrant import COLLECTION_NAME, EMBEDDING_MODEL, ensure_collection
+
+from config import settings
+from rag.qdrant import ensure_collection
 
 
 def _parse_pdf(pdf_path: Path) -> list[dict]:
@@ -80,7 +82,7 @@ def ingest_document(
         points = [
             PointStruct(
                 id=uuid4(),
-                vector=Document(text=chunk["text"], model=EMBEDDING_MODEL),
+                vector=Document(text=chunk["text"], model=settings.EMBEDDING_MODEL),
                 payload={
                     "doc_id": doc_id,
                     "doc_name": doc_name,
@@ -93,7 +95,7 @@ def ingest_document(
             for chunk in chunks
         ]
 
-        qdrant_client.upsert(collection_name=COLLECTION_NAME, points=points)
+        qdrant_client.upsert(collection_name=settings.COLLECTION_NAME, points=points)
         update_document(doc_id, status="ready", chunk_count=len(points))
         return len(points)
 
