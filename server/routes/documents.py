@@ -7,7 +7,7 @@ from qdrant_client.models import FieldCondition, Filter, MatchValue
 
 from rag.document_store import create_document, delete_document, get_document, list_documents
 from rag.ingestor import ingest_document
-from rag.qdrant import COLLECTION_NAME, get_client
+from rag.qdrant import COLLECTION_NAME, get_client, delete_document_vectors
 from schemas import DocumentResponse
 
 router = APIRouter(prefix="/api/documents", tags=["documents"])
@@ -102,20 +102,9 @@ async def remove_document(doc_id: str) -> None:
         raise HTTPException(status_code=404, detail="Document not found.")
 
     try:
-        qdrant = get_client()
-        qdrant.delete(
-            collection_name=COLLECTION_NAME,
-            points_selector=Filter(
-                must=[
-                    FieldCondition(
-                        key="doc_id",
-                        match=MatchValue(value=doc_id),
-                    )
-                ]
-            ),
-        )
-    except Exception:
-        pass  # vectors may not exist yet (e.g. ingestion pending or failed)
+        delete_document_vectors(doc_id, get_client())
+    except Exception as e:
+        print(f"[delete] Qdrant vector deletion failed for {doc_id}: {e}")
 
     delete_document(doc_id)
     upload_path = _find_upload_file(doc_id)
