@@ -12,7 +12,7 @@ You answer questions based ONLY on the provided document excerpts.
 If the answer is not in the excerpts, say so clearly.
 Always be precise and professional. Use numbers and specifics from the source material."""
 
-_MAX_HISTORY_MESSAGES = 5
+_MAX_HISTORY_MESSAGES = 3
 
 
 def _format_context(chunks: list[dict]) -> str:
