@@ -1,0 +1,5 @@
+*.log
+.env*
+\__pycache__
+*settings.json
+!.env.example
